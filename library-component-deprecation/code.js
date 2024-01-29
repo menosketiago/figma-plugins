@@ -9,7 +9,7 @@ figma.ui.resize(360, 420);
 // callback. The callback will be passed the "pluginMessage" property of the
 // posted message.
 figma.ui.onmessage = (msg) => {
-    const deprecationComponent = figma.currentPage.findOne((n) => n.name === "📦 Deprecating");
+    const deprecationComponent = figma.currentPage.findOne(n => n.name === "📦 Deprecating");
     const componentArray = figma.currentPage.findAllWithCriteria({
         types: ["COMPONENT"],
     });
@@ -20,14 +20,14 @@ figma.ui.onmessage = (msg) => {
                 const deprecationClone = deprecationComponent.clone();
                 // Add the clone deprecation component to the component node layers
                 component.appendChild(deprecationClone);
-                const deprececationLayer = component.findChild((n) => n.name === "📦 Deprecating");
+                const deprecationLayer = component.findChild((n) => n.name === "📦 Deprecating");
                 if (component.layoutMode !== "NONE") {
-                    deprececationLayer.layoutPositioning = "ABSOLUTE";
+                    deprecationLayer.layoutPositioning = "ABSOLUTE";
                 }
-                deprececationLayer.x = 0;
-                deprececationLayer.y = 0;
-                deprececationLayer.resize(component.width, component.height);
-                deprececationLayer.constraints = {
+                deprecationLayer === null || deprecationLayer === void 0 ? void 0 : deprecationLayer.x = 0;
+                deprecationLayer.y = 0;
+                deprecationLayer.resize(component.width, component.height);
+                deprecationLayer.constraints = {
                     horizontal: "SCALE",
                     vertical: "SCALE",
                 };
@@ -56,6 +56,9 @@ figma.ui.onmessage = (msg) => {
     if (deprecationComponent && componentArray.length > 0) {
         addDeprecationLayers();
         renameDeprecatingComponents();
+    }
+    else if (!deprecationComponent) {
+        figma.notify("I think you forgot to add 📦 Deprecating component instance to the current page", { timeout: 10000, error: true });
     }
     // Make sure to close the plugin when you're done. Otherwise the plugin will
     // keep running, which shows the cancel button at the bottom of the screen.
