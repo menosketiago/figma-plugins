@@ -1,0 +1,104 @@
+<h1>Instructions</h1>
+
+<p>
+    For this plugin to work, you need to add an instance of the <b>📦 Deprecating"</b> component from the <b>Mobile Design System</b> to the current page canvas.
+</p>
+<p>
+    Find the component <b><a href="https://www.figma.com/file/atuvIb9Co00loIv7wQlVrRKu/branch/ag3HRUby3TL1pAMSyCWxl4/DLS-Library---Mobile-(iOS%2FAndroid)?type=design&node-id=43494-10049&mode=design&t=IYhbCpOTo2S1Whsp-11" target="_blank">here</a></b>.
+</p>
+<p>
+    After adding the <b>📦 Deprecating"</b> component instance, click the "Deprecate components" button bellow.
+</p>
+<p>
+    PS: Don't forget to double-check the results and remove the <b>📦 Deprecating</b> instance.
+</p>
+
+<footer>
+    <button id="deprecate">Deprecate components</button>
+</footer>
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+    :root {
+        --size-base: 8px;
+        --size-s: 4px;
+        --size-m: 12px;
+        --size-l: 24px;
+        --radius-base: 2px;
+        --radius-button: 6px;
+        --element-height: 34px;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: var(--size-l);
+        background: var(--figma-color-bg);
+        color: var(--figma-color-text);
+        font-family: Inter, San Francisco, Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 18px;
+    }
+
+    h1 {
+        margin: 0;
+        margin-bottom: var(--size-l);
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    a {
+        color: var(--figma-color-text-brand);
+    }
+
+    a:focus {
+        outline: 2px solid var(--figma-color-border-brand-strong);
+    }
+
+    button {
+        height: var(--element-height);
+        padding: var(--size-s) var(--size-m);
+        background: var(--figma-color-bg-brand);
+        border-radius: var(--radius-button);
+        color: var(--figma-color-text-onbrand);
+        font-size: 1em;
+        font-weight: 400;
+        border: none;
+    }
+
+    button:active {
+        background: var(--figma-color-bg-brand-pressed);
+    }
+
+    button:focus {
+        outline: 2px solid var(--figma-color-border-brand-strong);
+    }
+
+    footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: var(--size-l);
+        background: var(--figma-color-bg);
+        border-top: 1px solid var(--figma-color-border);
+    }
+
+    footer button {
+        width: 100%;
+    }
+</style>
+
+<script>
+    document.getElementById("deprecate").onclick = () => {
+        parent.postMessage(
+            { pluginMessage: 
+                { type: "deprecate-components" } 
+            },
+            "*"
+        );
+    };
+</script>
