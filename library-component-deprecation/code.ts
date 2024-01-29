@@ -20,54 +20,56 @@ figma.ui.onmessage = (msg) => {
 
     function addDeprecationLayers() {
         Array.from(componentArray).forEach((component) => {
-            // Check if there isn't already a deprecating layer on the component
-            if (!component.findChild((n) => n.name === "📦 Deprecating")) {
-                const deprecationClone = deprecationComponent.clone()
+            // Check if the component is not a base component 
+            // and if there isn't already a deprecating layer on the component
+            if (
+                !component.parent.name.includes("_") &&
+                !component.findChild(n => n.name === "📦 Deprecating")
+            ) {
+                const deprecationClone = deprecationComponent?.clone()
 
-                // Add the clone deprecation component to the component node layers
-                component.appendChild(deprecationClone);
-
-                const deprecationLayer = component.findChild(
-                    (n) => n.name === "📦 Deprecating"
-                );
-
-                if (component.layoutMode !== "NONE") {
-                    deprecationLayer.layoutPositioning = "ABSOLUTE";
+                if (deprecationClone) {
+                    // Add the clone deprecation component to the component node layers
+                    component.appendChild(deprecationClone);
                 }
 
-                deprecationLayer?.x = 0;
-                deprecationLayer.y = 0;
-
-                deprecationLayer.resize(component.width, component.height);
-
-                deprecationLayer.constraints = {
-                    horizontal: "SCALE",
-                    vertical: "SCALE",
-                };
-            }
+                const deprecationLayer = component.findChild(n => n.name === "📦 Deprecating");
+        
+                if (deprecationLayer) {
+                    // Check if the component has autolayout and add absolute positioning
+                    if (component.layoutMode !== "NONE") {
+                        deprecationLayer.layoutPositioning = "ABSOLUTE";
+                    }
+                
+                        deprecationLayer.x = 0;
+                        deprecationLayer.y = 0;
+                    
+                        deprecationLayer.resize(component.width, component.height);
+                    
+                        deprecationLayer.constraints = { horizontal: "SCALE", vertical: "SCALE" }
+                    }
+                }
         });
     }
 
     function renameDeprecatingComponents() {
         Array.from(componentArray).forEach((component) => {
-            if (
-                component.parent.type === "COMPONENT_SET" &&
-                component.findChild((n) => n.name === "📦 Deprecating")
-            ) {
-                const originalName = component.parent.name;
-
-                if (!originalName.includes("[DEPRECATING]")) {
-                    component.parent.name = `[DEPRECATING] ${originalName}`;
-                }
-            } else if (
-                component.parent.type !== "COMPONENT_SET" ||
-                component.parent.type !== "FRAME" ||
-                component.parent.type !== "PAGE"
-            ) {
-                const originalName = component.name;
-
-                if (!originalName.includes("[DEPRECATING]")) {
-                    component.name = `[DEPRECATING] ${originalName}`;
+            if (component.parent) {
+                if (
+                    component.parent.type === "COMPONENT_SET" &&
+                    component.findChild(n => n.name === "📦 Deprecating")
+                ) {
+                    const originalName = component.parent.name;
+    
+                    if (!originalName.includes("[DEPRECATING]")) {
+                        component.parent.name = `[DEPRECATING] ${originalName}`;
+                    }
+                } else {
+                    const originalName = component.name;
+    
+                    if (!originalName.includes("[DEPRECATING]")) {
+                        component.name = `[DEPRECATING] ${originalName}`;
+                    }
                 }
             }
         });
@@ -77,8 +79,12 @@ figma.ui.onmessage = (msg) => {
         addDeprecationLayers();
         renameDeprecatingComponents();
     }
-    else if (!deprecationComponent) {
-        figma.notify("I think you forgot to add 📦 Deprecating component instance to the current page", {timeout: 10000, error: true});
+    
+    if (!deprecationComponent) {
+        figma.notify("I think you forgot to add 📦 Deprecating component instance to the current page", {
+            timeout: 10000, 
+            error: true
+        });
     }
 
     // Make sure to close the plugin when you're done. Otherwise the plugin will
