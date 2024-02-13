@@ -1,6 +1,6 @@
 {
-    "name": "Component deprecation automation",
-    "id": "1333742165663801889",
+    "name": "MDS — Wrapper hack for icons",
+    "id": "1339160765028459429",
     "api": "1.0.0",
     "main": "code.js",
     "capabilities": [],
@@ -8,11 +8,9 @@
     "editorType": [
         "figma"
     ],
-    "ui": "ui.html",
     "networkAccess": {
         "allowedDomains": [
-            "https://fonts.googleapis.com",
-            "https://fonts.gstatic.com"
+            "none"
         ]
     }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "Toggle deprecation on page",
+  "name": "MDS — Toggle deprecation",
   "id": "1333825728767697654",
   "api": "1.0.0",
   "main": "code.js",

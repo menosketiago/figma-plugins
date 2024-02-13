@@ -1,5 +1,5 @@
 {
-  "name": "Toggle-deprecation-on-page",
+  "name": "MDS — Toggle deprecation on page",
   "version": "1.0.0",
   "description": "Your Figma Plugin",
   "main": "code.js",

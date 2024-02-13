@@ -1,5 +1,5 @@
 {
-  "name": "Deprecate-components-on-page",
+  "name": "MDS — Icon wrapper hack",
   "version": "1.0.0",
   "description": "Your Figma Plugin",
   "main": "code.js",
@@ -10,7 +10,7 @@
   "author": "",
   "license": "",
   "devDependencies": {
-    "@figma/plugin-typings": "^1.85.0",
+    "@figma/plugin-typings": "^1.86.0",
     "typescript": "*"
   }
 }
