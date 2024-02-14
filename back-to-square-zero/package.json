@@ -1,0 +1,16 @@
+{
+    "name": "Back-to-square-zero",
+    "version": "1.0.0",
+    "description": "This plugin will group everything on the page and set the group to x=0 and y=0 (Figma canvas origin point and default zoom position).",
+    "main": "code.js",
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "watch": "npm run build -- --watch"
+    },
+    "author": "",
+    "license": "",
+    "devDependencies": {
+        "@figma/plugin-typings": "^1.86.0",
+        "typescript": "*"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Back to square zero",
+    "id": "1339531354974616110",
+    "api": "1.0.0",
+    "main": "code.js",
+    "capabilities": [],
+    "enableProposedApi": false,
+    "editorType": [
+        "figma"
+    ],
+    "networkAccess": {
+        "allowedDomains": [
+            "none"
+        ]
+    }
+}
