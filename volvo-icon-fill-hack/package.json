@@ -1,7 +1,7 @@
 {
-  "name": "MDS — Icon wrapper hack",
+  "name": "MDS — Icon fill hack",
   "version": "1.0.0",
-  "description": "Your Figma Plugin",
+  "description": "Add a union hack that allows you to retain fill when swapping icons",
   "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
