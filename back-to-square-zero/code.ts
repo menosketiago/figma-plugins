@@ -9,7 +9,7 @@ group.x = 0;
 group.y = 0;
 
 if (figma.currentPage.findChildren(n => n.name === "Temporary group")) {
-    figma.ungroup(group, figma.currentPage);
+    figma.ungroup(group);
 }
 
 // Make sure to close the plugin when you're done. Otherwise the plugin will

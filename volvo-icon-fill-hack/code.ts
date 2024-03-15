@@ -5,7 +5,7 @@ const iconComponents = figma.currentPage.findAllWithCriteria({ types: ["COMPONEN
 Array.from(iconComponents).forEach(component => {
     // Check if the component has a layer called "Shape"
     if (component.findChildren(n => n.name === "Shape")) {
-        console.log(component)
+        
     }
     else {
         console.log(`$${component.name} does not have a Shape layer`)
