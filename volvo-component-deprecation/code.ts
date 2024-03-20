@@ -87,7 +87,6 @@ figma.ui.onmessage = (msg) => {
         });
     }
 
-    // Make sure to close the plugin when you're done. Otherwise the plugin will
-    // keep running, which shows the cancel button at the bottom of the screen.
-    figma.closePlugin();
+    // Not closing the plugin to avoid having to run it again on other pages
+    // figma.closePlugin();
 };
