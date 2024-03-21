@@ -1,4 +1,5 @@
 // This plugin toggles the visibility of the 📦 Deprecating layer on a page
+
 const deprecatedComponentArray = figma.currentPage.findAll(n =>n.name.includes("[DEPRECATING]"));
 
 Array.from(deprecatedComponentArray).forEach((component) => {

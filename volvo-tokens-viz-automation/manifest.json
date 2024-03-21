@@ -1,16 +1,18 @@
 {
-  "name": "Toggle DLS deprecation",
-  "id": "1333825728767697654",
+  "name": "Design Tokens viz automation",
+  "id": "1352572784026229099",
   "api": "1.0.0",
   "main": "code.js",
   "capabilities": [],
   "enableProposedApi": false,
   "editorType": [
-    "figma"
+    "figma",
+    "figjam"
   ],
   "networkAccess": {
     "allowedDomains": [
       "none"
     ]
-  }
+  },
+  "documentAccess": ""
 }

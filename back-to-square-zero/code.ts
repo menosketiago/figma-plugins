@@ -14,4 +14,4 @@ if (figma.currentPage.findChildren(n => n.name === "Temporary group")) {
 
 // Make sure to close the plugin when you're done. Otherwise the plugin will
 // keep running, which shows the cancel button at the bottom of the screen.
-figma.closePlugin();
+figma.closePlugin("Your content is now on the Figma canvas origin (x=0 and y=0)!");
