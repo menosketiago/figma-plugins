@@ -43,54 +43,154 @@ function figmaRGBToHex(color: any) {
 
 // TOKENS VIZ AUTOMATION
 
-const loadFonts = async () => {
+let localCollections: any[];
+
+const asyncCalls = async () => {
     await figma.loadFontAsync({ family: "Volvo Novum", style: "Regular" });
     await figma.loadFontAsync({ family: "Volvo Novum", style: "SemiLight" });
     await figma.loadFontAsync({ family: "Volvo Novum", style: "Medium" });
+
+    localCollections = await figma.variables.getLocalVariablesAsync();
 };
 
-loadFonts().then(() => updateTokens());
-
 const updateTokens = () => {
-    let chipArray = figma.currentPage.findAll(
-        (n) => n.name === "📦 Design token chip"
-    );
+    let chipArray = figma.currentPage.findAll(n => n.name === "📦 Design token chip");
 
-    Array.from(chipArray).forEach(async (chip) => {
-        // Check if the item is a color token
-        // @ts-ignore
-        if (chip.variantProperties.Type === "Color") {
-            // Store the updateable component layers
-            // @ts-ignore
-            let colorStyleLayer = chip.findOne(
-                (n: { name: string }) => n.name === "Color"
-            );
-            // @ts-ignore
-            let colorNameLayer = chip.findOne(
-                (n: { name: string }) => n.name === "Label"
-            );
-            // @ts-ignore
-            let hexValueLayer = chip.findOne(
-                (n: { name: string }) => n.name === "Value"
-            );
+    Array.from(chipArray).forEach((chip) => {
+        if (chip.type === "INSTANCE") {
+            // Check if the token chip is a color token
+            if (chip.variantProperties!.Type === "Color") {
+                // Store the updatable component layers
+                let colorStyleLayer = chip.findOne(n => n.name === "Color");
+                let colorNameLayer = chip.findOne(n => n.name === "Label");
+                let hexValueLayer = chip.findOne(n => n.name === "Value");
+            
+                if (
+                    colorStyleLayer && 
+                    colorStyleLayer.type === "ELLIPSE" &&
+                    colorNameLayer &&
+                    colorNameLayer.type === "TEXT" &&
+                    hexValueLayer &&
+                    hexValueLayer.type === "TEXT"
+                ) {
+                    // @ts-ignore
+                    let figmaColorObject = colorStyleLayer.fills[0];
+                    let hexValue = figmaRGBToHex(figmaColorObject.color).toUpperCase();
+                    let rbgObject = figmaRGBToWebRGB(figmaColorObject);
+                    let opacity = Math.round(figmaColorObject.opacity * 100);
+                
+                    let variableId = figmaColorObject.boundVariables.color.id;
+                    
+                    // @ts-ignore
+                    let variableName = figma.variables.getVariableById(variableId).name;
+                
+                    // Update the color name string on the component
+                    colorNameLayer.characters = variableName;
 
-            // Reusable variables
-            let figmaColorObject = colorStyleLayer.fills[0].color;
-            let hexValue = figmaRGBToHex(figmaColorObject).toUpperCase();
-            let rbgObject = figmaRGBToWebRGB(figmaColorObject);
-            let opacity = Math.round(colorStyleLayer.fills[0].opacity * 100);
+                    // Update the HEX value layer string on the component
+                    hexValueLayer.characters = `${hexValue} (${opacity}%)`;
+                }
+            }
 
-            let variableId = colorStyleLayer.fills[0].boundVariables.color.id;
+            // Check if the token is a radius or size token
+            if (
+                chip.variantProperties!.Type === "Radius" ||
+                chip.variantProperties!.Type === "Size"
+            ) {
+                let tokenLabel = chip.findOne(n => n.name === "Label");
+                // @ts-ignore
+                let tokenName = tokenLabel.characters;
 
-            let variableName = figma.variables.getVariableById(variableId).name;
+                // Check if the token chip has an alias token
+                if (Object.values(chip.componentProperties)[0].value) {
+                    let tokenLabel = chip.findOne(n => n.name === "Label");
+                    let aliasLabel = chip.findOne(n => n.name === "Alias label");
+                    
+                    if (
+                        tokenLabel &&
+                        tokenLabel.type === "TEXT" &&
+                        aliasLabel &&
+                        aliasLabel.type === "TEXT"
+                    ) {
+                        // Find the collection name (first word) and remove it
+                        let variableName = tokenName.replace(/^([\w\-]+)\//g, "");
+                    
+                        // Find the varaibale in the collection
+                        // @ts-ignore
+                        let matchingVariable = localCollections.find(n => n.name === variableName);
+                    
+                        // Check if the token chip and variable names match
+                        // If they don't make the outline of the token red
+                        if (matchingVariable) {
+                            // @ts-ignore
+                            let aliasID = Object.values(matchingVariable.valuesByMode)[0].id;
+                            let aliasVariable = figma.variables.getVariableById(aliasID);
 
-            // Update the color name string on the component
-            colorNameLayer.characters = `Colors/${variableName}`;
+                            if (aliasVariable) {
+                                let aliasVariableName = aliasVariable.name;
+                        
+                                let aliasCollectionID = aliasVariable.variableCollectionId;
+                                let aliasCollection = figma.variables.getVariableCollectionById(aliasCollectionID);
+                                
+                                if (aliasCollection) {
+                                    let aliasCollectionName = aliasCollection.name;
+                            
+                                    // Set the Alias label string
+                                    aliasLabel.characters = `${aliasCollectionName}/${aliasVariableName}`;
+                                }
+                            }
+                        }
+                        else {
+                            const newFill = [
+                                // @ts-ignore
+                                chip.fills[0],
+                                figma.util.solidPaint("#BF2012")
+                            ];
+                    
+                            chip.fills = newFill;
 
-            // Update the HEX value layer string on the component
-            hexValueLayer.characters = `${hexValue} (${opacity}%)`;
+                            figma.notify("Check the red chips for typos on the chip label or the Figma variable itself (i.e. wrong case type)", { error: true, timeout: 10000 });
+                        }
+                    }
+                }
+
+                // Check if the chip has a value to update
+                if (Object.values(chip.componentProperties)[1].value) {
+                    let valueLabel = chip.findOne(n => n.name === "Value");
+                    
+                    // Find the collection name (first word) and remove it
+                    let variableName = tokenName.replace(/^([\w\-]+)\//g, "");
+                
+                    // Find the varaibale in the collection
+                    let matchingVariable = localCollections.find(n => n.name === variableName);
+
+                    // Check if the token chip and variable names match
+                    // If they don't make the outline of the token red
+                    if (matchingVariable) {
+                        // @ts-ignore
+                        let variableValue = Object.values(matchingVariable.valuesByMode)[0].toString();
+                    
+                        // Set the value
+                        // @ts-ignore
+                        valueLabel.characters = variableValue;
+                    }
+                    else {
+                        const newFill = [
+                            // @ts-ignore
+                            chip.fills[0],
+                            figma.util.solidPaint("#BF2012")
+                        ];
+                
+                        chip.fills = newFill;
+
+                        figma.notify("Check the red chips for typos on the chip label or the Figma variable itself (i.e. wrong case type)", { error: true, timeout: 10000 });
+                    }
+                }
+            }
         }
     });
 
     figma.closePlugin("Design Token names and values updated!");
 };
+
+asyncCalls().then(() => updateTokens());
