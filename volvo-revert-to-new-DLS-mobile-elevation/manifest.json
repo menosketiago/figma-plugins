@@ -1,18 +1,17 @@
 {
-    "name": "Design Tokens viz automation",
-    "id": "1352572784026229099",
+    "name": "Revert to new DLS mobile elevation",
+    "id": "1359464010614459036",
     "api": "1.0.0",
     "main": "code.js",
     "capabilities": [],
     "enableProposedApi": false,
     "editorType": [
-        "figma",
-        "figjam"
+        "figma"
     ],
     "networkAccess": {
         "allowedDomains": [
             "none"
         ]
     },
-    "documentAccess": ""
+    "documentAccess": "dynamic-page"
 }

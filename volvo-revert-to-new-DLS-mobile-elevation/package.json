@@ -1,7 +1,7 @@
 {
-    "name": "MDS — Toggle deprecation on page",
+    "name": "vmds-revert-to-new-dls-mobile-elevation",
     "version": "1.0.0",
-    "description": "A plugin that hides all deprecation styles on the old Volvo DLS Mobile Figma library",
+    "description": "A plugin that changes all components with a background to the old Volvo DLS mobile elevation",
     "main": "code.js",
     "scripts": {
         "build": "tsc -p tsconfig.json",
@@ -10,7 +10,7 @@
     "author": "",
     "license": "",
     "devDependencies": {
-        "@figma/plugin-typings": "^1.85.0",
+        "@figma/plugin-typings": "^1.90.0",
         "typescript": "*"
     }
 }

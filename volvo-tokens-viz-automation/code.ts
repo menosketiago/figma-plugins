@@ -190,6 +190,7 @@ const updateTokens = () => {
         }
     });
 
+    // After the loop is done close the plugin
     figma.closePlugin("Design Token names and values updated!");
 };
 

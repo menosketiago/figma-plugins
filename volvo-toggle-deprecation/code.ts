@@ -1,14 +1,10 @@
 // This plugin toggles the visibility of the 📦 Deprecating layer on a page
 
-const deprecatedComponentArray = figma.currentPage.findAll(n =>n.name.includes("[DEPRECATING]"));
+const deprecatedComponentArray = figma.currentPage.findAll(n => n.name.includes("📦 Deprecating"));
 
-Array.from(deprecatedComponentArray).forEach((component) => {
-    if (component.type === "INSTANCE") {
-        const deprecationLayer = component.findChild(n => n.name === "📦 Deprecating");
-
-        if (deprecationLayer) {
-            deprecationLayer.visible = !deprecationLayer.visible;
-        }
+Array.from(deprecatedComponentArray).forEach((item) => {
+    if (item.type === "INSTANCE") {
+        item.visible = !item.visible;
     }
 });
 

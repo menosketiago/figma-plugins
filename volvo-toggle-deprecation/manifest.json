@@ -1,5 +1,5 @@
 {
-  "name": "Toggle DLS deprecation",
+  "name": "Toggle DLS deprecation on page",
   "id": "1333825728767697654",
   "api": "1.0.0",
   "main": "code.js",
