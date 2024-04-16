@@ -2,17 +2,17 @@
 // elevation colors (only works with the new Figma Mobile Design System library)
 
 // Old variables
-const oldBackgroundPrimaryID = "VariableID:43979:6933"
-const oldElevationLowID = "VariableID:43979:6939";
-const oldElevationMidID = "VariableID:43979:6938"; 
-const oldElevationHighID = "VariableID:43979:6937";
+const oldBackgroundPrimaryID = "VariableID:8a0c42d7979cbdd51173d37ba9c2d3437ba389f9/43979:37"
+const oldElevationLowID = "VariableID:67e968a46b531731492a167c1b982d436bdc6a8c/43979:38";
+const oldElevationMidID = "VariableID:e8c4ba7e1d94aea04fa9625ed7ef61d8e53e15c1/43979:39"; 
+const oldElevationHighID = "VariableID:979b9477c65b3f81c598d7770b7c3f1bde58ba89/43979:40";
 
 // New variables
-const newBackgroundPrimaryID = "VariableID:35731:19623";
-const newElevationBaseID = "VariableID:42358:162";
-const newElevationHighlightID = "VariableID:42358:161";
-const newElevationRaiseID = "VariableID:42358:162";
-const newElevationOverlayID = "VariableID:42358:163";
+const newBackgroundInformationID = "VariableID:5e117a6afc2082f87225e3767f0676f087c2ab7c/44100:0";
+const newElevationBaseID = "VariableID:75e6c17b879796c47ccb3176f7871968e657f7fb/43079:8";
+const newElevationHighlightID = "VariableID:89d77124befc3e197e2a24a6dba26ffe14205e57/43079:9";
+const newElevationRaiseID = "VariableID:e6b4968ec7a87a31af8a55a32117fbf1807dbb65/43079:11";
+const newElevationOverlayID = "VariableID:2a5fb6e8cf88308abc8900e5ac7570585120ce58/43079:14";
 
 // Variables object storage
 let oldBackgroundPrimary: Variable | null, oldElevationLow: Variable | null, oldElevationMid, oldElevationHigh: Variable | null;
@@ -29,14 +29,21 @@ const updateVariables = () => {
     let bottomNavArray = figma.currentPage.findAll(n => n.name === "⚡️ Bottom navigation");
 
     Array.from(bottomNavArray).forEach(item => {
+        // @ts-ignore
         let boundVariableID = item.fills[0].boundVariables.color.id;
 
         // Check if it has the new elevation
         if (boundVariableID === newElevationRaiseID) {
+            // @ts-ignore
             const fillsCopy = [...(item.fills)];
             
             fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', oldElevationHigh);
+
+            // @ts-ignore
             item.fills = fillsCopy
+        }
+        else {
+            figma.notify("Bottom navigation — something wrong with the variable applied", { error: true, timeout: 10000 });
         }
     });
 
@@ -44,31 +51,43 @@ const updateVariables = () => {
     let dialogWrapperArray = figma.currentPage.findAll(n => n.name === "Dialog wrapper");
 
     Array.from(dialogWrapperArray).forEach(item => {
+        // @ts-ignore
         const boundVariableID = item.fills[0].boundVariables.color.id;
 
         // Check if it has the new elevation
         if (boundVariableID === newElevationOverlayID) { 
+            // @ts-ignore
             const fillsCopy = [...(item.fills)];
             
             fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', oldElevationHigh);
+
+            // @ts-ignore
             item.fills = fillsCopy
         }
-
-        console.log(item)
+        else {
+            figma.notify("Dialog — something wrong with the variable applied", { error: true, timeout: 10000 });
+        }
     });
 
     // INFORMATION BOX
     let informationBoxArray = figma.currentPage.findAll(n => n.name === "⚡️ Information box");
 
     Array.from(informationBoxArray).forEach(item => {
+        // @ts-ignore
         const boundVariableID = item.fills[0].boundVariables.color.id;
 
         // Check if it has the new elevation
-        if (boundVariableID === newBackgroundPrimaryID) { 
+        if (boundVariableID === newBackgroundInformationID) {
+            // @ts-ignore
             const fillsCopy = [...(item.fills)];
             
             fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', oldBackgroundPrimary);
+
+            // @ts-ignore
             item.fills = fillsCopy
+        }
+        else {
+            figma.notify("Information box — something wrong with the variable applied", { error: true, timeout: 10000 });
         }
     });
 
@@ -76,14 +95,21 @@ const updateVariables = () => {
     let informationCardArray = figma.currentPage.findAll(n => n.name === "⚡️ Information card");
 
     Array.from(informationCardArray).forEach(item => {
+        // @ts-ignore
         const boundVariableID = item.fills[0].boundVariables.color.id;
 
         // Check if it has the new elevation
-        if (boundVariableID === newBackgroundPrimaryID) { 
+        if (boundVariableID === newBackgroundInformationID) {
+            // @ts-ignore 
             const fillsCopy = [...(item.fills)];
             
             fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', oldElevationLow);
+
+            // @ts-ignore
             item.fills = fillsCopy
+        }
+        else {
+            figma.notify("Information card — something wrong with the variable applied", { error: true, timeout: 10000 });
         }
     });
 
@@ -91,14 +117,21 @@ const updateVariables = () => {
     let insightCardArray = figma.currentPage.findAll(n => n.name === "⚡️ Insight card");
 
     Array.from(insightCardArray).forEach(item => {
+        // @ts-ignore
         const boundVariableID = item.fills[0].boundVariables.color.id;
 
         // Check if it has the new elevation
-        if (boundVariableID === newBackgroundPrimaryID) { 
+        if (boundVariableID === newBackgroundInformationID) { 
+            // @ts-ignore
             const fillsCopy = [...(item.fills)];
             
             fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', oldElevationLow);
+
+            // @ts-ignore
             item.fills = fillsCopy
+        }
+        else {
+            figma.notify("Insight card — something wrong with the variable applied", { error: true, timeout: 10000 });
         }
     });
 
@@ -106,14 +139,21 @@ const updateVariables = () => {
     let listCardArray = figma.currentPage.findAll(n => n.name === "⚡️ List card");
 
     Array.from(listCardArray).forEach(item => {
+        // @ts-ignore
         const boundVariableID = item.fills[0].boundVariables.color.id;
 
         // Check if it has the new elevation
         if (boundVariableID === newElevationHighlightID) { 
+            // @ts-ignore
             const fillsCopy = [...(item.fills)];
             
             fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', oldElevationHigh);
+
+            // @ts-ignore
             item.fills = fillsCopy
+        }
+        else {
+            figma.notify("List card — something wrong with the variable applied", { error: true, timeout: 10000 });
         }
     }); 
 
@@ -121,16 +161,23 @@ const updateVariables = () => {
     let navigationBarArray = figma.currentPage.findAll(n => n.name === "⚡️ Navigation bar");
 
     Array.from(navigationBarArray).forEach(item => {
+        // @ts-ignore
         if (item.variantProperties.Background === "True") {
-            
+            // @ts-ignore
             const boundVariableID = item.fills[0].boundVariables.color.id;
 
             // Check if it has the new elevation
             if (boundVariableID === newElevationBaseID) { 
+                // @ts-ignore
                 const fillsCopy = [...(item.fills)];
                 
                 fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', oldBackgroundPrimary);
+
+                // @ts-ignore
                 item.fills = fillsCopy
+            }
+            else {
+                figma.notify("Navigation bar — something wrong with the variable applied", { error: true, timeout: 10000 });
             }
         }
     });
@@ -140,21 +187,29 @@ const updateVariables = () => {
 
     Array.from(searchArray).forEach(item => {
         // Check if it is the background variant
+        // @ts-ignore
         if (item.variantProperties.Background === "True") {
+            // @ts-ignore
             const boundVariableID = item.fills[0].boundVariables.color.id;
 
             // Check if it has the new elevation
             if (boundVariableID === newElevationBaseID) {
+                // @ts-ignore
                 const fillsCopy = [...(item.fills)];
                 
                 fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', oldElevationLow);
+
+                // @ts-ignore
                 item.fills = fillsCopy
+            }
+            else {
+                figma.notify("Search — something wrong with the variable applied", { error: true, timeout: 10000 });
             }
         }
     });
 
     // After the loop is done close the plugin
-    figma.closePlugin("Elevation was successfully changed!");
+    figma.closePlugin("Components on page change to old elevation!");
 };
 
 asyncCalls().then(() => updateVariables());
