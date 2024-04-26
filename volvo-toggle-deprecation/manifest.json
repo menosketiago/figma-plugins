@@ -1,16 +1,26 @@
 {
-  "name": "Toggle DLS deprecation on page",
-  "id": "1333825728767697654",
-  "api": "1.0.0",
-  "main": "code.js",
-  "capabilities": [],
-  "enableProposedApi": false,
-  "editorType": [
-    "figma"
-  ],
-  "networkAccess": {
-    "allowedDomains": [
-      "none"
+    "name": "Toggle DLS deprecation on page",
+    "id": "1333825728767697654",
+    "api": "1.0.0",
+    "main": "code.js",
+    "capabilities": [],
+    "enableProposedApi": false,
+    "editorType": [
+        "figma"
+    ],
+    "networkAccess": {
+        "allowedDomains": [
+            "none"
+        ]
+    },
+    "menu": [
+        {
+            "name": "Hide deprecated components",
+            "command": "hide"
+        },
+        {
+            "name": "Show deprecated components",
+            "command": "show"
+        }
     ]
-  }
 }
