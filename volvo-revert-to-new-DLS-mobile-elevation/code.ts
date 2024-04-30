@@ -27,7 +27,7 @@ const asyncCalls = async () => {
 
 const updateVariables = () => {
     // BOTTOM NAVIGATION
-    let bottomNavArray = figma.currentPage.findAll(n => n.name === "⚡️ Bottom navigation");
+    let bottomNavArray = figma.currentPage.findAll(n => n.name === "⚡️ Bottom Navigation");
 
     Array.from(bottomNavArray).forEach(item => {
         // @ts-ignore
@@ -43,7 +43,7 @@ const updateVariables = () => {
             item.fills = fillsCopy
         }
         else {
-            figma.notify("Bottom navigation — something wrong with the variable applied", { error: true, timeout: 10000 });
+            figma.notify("Bottom navigation — Check the applied variable", { error: true, timeout: 10000 });
         }
     });
 
@@ -64,12 +64,12 @@ const updateVariables = () => {
             item.fills = fillsCopy
         }
         else {
-            figma.notify("Dialog — something wrong with the variable applied", { error: true, timeout: 10000 });
+            figma.notify("Dialog — Check the applied variable", { error: true, timeout: 10000 });
         }
     });
 
     // INFORMATION BOX
-    let informationBoxArray = figma.currentPage.findAll(n => n.name === "⚡️ Information box");
+    let informationBoxArray = figma.currentPage.findAll(n => n.name === "⚡️ Information Box");
 
     Array.from(informationBoxArray).forEach(item => {
         // @ts-ignore
@@ -85,7 +85,7 @@ const updateVariables = () => {
             item.fills = fillsCopy
         }
         else {
-            figma.notify("Information box — something wrong with the variable applied", { error: true, timeout: 10000 });
+            figma.notify("Information box — Check the applied variable", { error: true, timeout: 10000 });
         }
     });
 
@@ -106,12 +106,12 @@ const updateVariables = () => {
             item.fills = fillsCopy
         }
         else {
-            figma.notify("Information card — something wrong with the variable applied", { error: true, timeout: 10000 });
+            figma.notify("Information card — Check the applied variable", { error: true, timeout: 10000 });
         }
     });
 
     // INSIGHT CARD
-    let insightCardArray = figma.currentPage.findAll(n => n.name === "⚡️ Insight card");
+    let insightCardArray = figma.currentPage.findAll(n => n.name === "⚡️ Insight Card");
 
     Array.from(insightCardArray).forEach(item => {
         // @ts-ignore
@@ -127,12 +127,12 @@ const updateVariables = () => {
             item.fills = fillsCopy
         }
         else {
-            figma.notify("Insight card — something wrong with the variable applied", { error: true, timeout: 10000 });
+            figma.notify("Insight card — Check the applied variable", { error: true, timeout: 10000 });
         }
     });
 
     // LIST CARD
-    let listCardArray = figma.currentPage.findAll(n => n.name === "⚡️ List card");
+    let listCardArray = figma.currentPage.findAll(n => n.name === "⚡️ List Card");
 
     Array.from(listCardArray).forEach(item => {
         // @ts-ignore
@@ -148,12 +148,12 @@ const updateVariables = () => {
             item.fills = fillsCopy
         }
         else {
-            figma.notify("List card — something wrong with the variable applied", { error: true, timeout: 10000 });
+            figma.notify("List card — Check the applied variable", { error: true, timeout: 10000 });
         }
     }); 
 
     // NAVIGATION BAR
-    let navigationBarArray = figma.currentPage.findAll(n => n.name === "⚡️ Navigation bar");
+    let navigationBarArray = figma.currentPage.findAll(n => n.name === "⚡️ Navigation Bar");
 
     Array.from(navigationBarArray).forEach(item => {
         // @ts-ignore
@@ -172,7 +172,7 @@ const updateVariables = () => {
                 item.fills = fillsCopy
             }
             else {
-                figma.notify("Navigation bar — something wrong with the variable applied", { error: true, timeout: 10000 });
+                figma.notify("Navigation bar — Check the applied variable", { error: true, timeout: 10000 });
             }
         }
     });
@@ -192,12 +192,12 @@ const updateVariables = () => {
                 // @ts-ignore
                 const fillsCopy = [...(item.fills)];
                 
-                fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', newElevationBase);
+                fillsCopy[0] = figma.variables.setBoundVariableForPaint(fillsCopy[0], 'color', newElevationRaise);
                 // @ts-ignore
                 item.fills = fillsCopy
             }
             else {
-                figma.notify("Search — something wrong with the variable applied", { error: true, timeout: 10000 });
+                figma.notify("Search — Check the applied variable", { error: true, timeout: 10000 });
             }
         }
     });
