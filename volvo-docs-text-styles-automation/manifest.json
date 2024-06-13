@@ -1,18 +1,17 @@
 {
-    "name": "Mobile Design Tokens viz automation",
-    "id": "1352572784026229099",
+    "name": "Mobile Text Styles Docs Automation",
+    "id": "1382715335507569422",
     "api": "1.0.0",
     "main": "code.js",
     "capabilities": [],
     "enableProposedApi": false,
+    "documentAccess": "",
     "editorType": [
-        "figma",
-        "figjam"
+        "figma"
     ],
     "networkAccess": {
         "allowedDomains": [
             "none"
         ]
-    },
-    "documentAccess": ""
+    }
 }

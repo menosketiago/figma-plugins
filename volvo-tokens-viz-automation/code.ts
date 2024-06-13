@@ -54,7 +54,7 @@ const asyncCalls = async () => {
 };
 
 const updateTokens = () => {
-    let chipArray = figma.currentPage.findAll(n => n.name === "📦 Design token chip");
+    let chipArray = figma.currentPage.findAll(n => n.name === "📦 Figma / Design Token Chip");
 
     Array.from(chipArray).forEach((chip) => {
         if (chip.type === "INSTANCE") {

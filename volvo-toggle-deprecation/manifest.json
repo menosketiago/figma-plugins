@@ -15,11 +15,11 @@
     },
     "menu": [
         {
-            "name": "Hide deprecated components",
+            "name": "Hide deprecation",
             "command": "hide"
         },
         {
-            "name": "Show deprecated components",
+            "name": "Show deprecation",
             "command": "show"
         }
     ]
