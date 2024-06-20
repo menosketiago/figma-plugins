@@ -34,7 +34,7 @@ const updateTextDocs = () => {
                     let description = style.description;
                     
                     // Update the layer text content
-                    nameLayer.characters = styleName;
+                    nameLayer.characters = styleName.replace(/^([\w\-]+)\/([\w\-]+)\//g, "");
                     familyLayer.characters = family;
                     weightLayer.characters = weight;
                     sizeLayer.characters = `${size}px`;

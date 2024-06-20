@@ -46,8 +46,8 @@ function figmaRGBToHex(color: any) {
 let localCollections: any[];
 
 const asyncCalls = async () => {
-    await figma.loadFontAsync({ family: "Volvo Novum", style: "Regular" });
     await figma.loadFontAsync({ family: "Volvo Novum", style: "SemiLight" });
+    await figma.loadFontAsync({ family: "Volvo Novum", style: "Regular" });
     await figma.loadFontAsync({ family: "Volvo Novum", style: "Medium" });
 
     localCollections = await figma.variables.getLocalVariablesAsync();
@@ -92,10 +92,11 @@ const updateTokens = () => {
                 }
             }
 
-            // Check if the token is a radius or size token
+            // Check if the token is a radius, size, or type token
             if (
                 chip.variantProperties!.Type === "Radius" ||
-                chip.variantProperties!.Type === "Size"
+                chip.variantProperties!.Type === "Size" ||
+                chip.variantProperties!.Type === "Type"
             ) {
                 let tokenLabel = chip.findOne(n => n.name === "Label");
                 // @ts-ignore
@@ -112,12 +113,13 @@ const updateTokens = () => {
                         aliasLabel &&
                         aliasLabel.type === "TEXT"
                     ) {
-                        // Find the collection name (first word) and remove it
+                        // Find the collection name first word and remove it
                         let variableName = tokenName.replace(/^([\w\-]+)\//g, "");
                     
-                        // Find the varaibale in the collection
+                        // Find the variable in the collection
                         // @ts-ignore
                         let matchingVariable = localCollections.find(n => n.name === variableName);
+
                     
                         // Check if the token chip and variable names match
                         // If they don't make the outline of the token red
@@ -161,7 +163,40 @@ const updateTokens = () => {
                     // Find the collection name (first word) and remove it
                     let variableName = tokenName.replace(/^([\w\-]+)\//g, "");
                 
-                    // Find the varaibale in the collection
+                    // Find the variable in the collection
+                    let matchingVariable = localCollections.find(n => n.name === variableName);
+
+                    // Check if the token chip and variable names match
+                    // If they don't make the outline of the token red
+                    if (matchingVariable) {
+                        // @ts-ignore
+                        let variableValue = Object.values(matchingVariable.valuesByMode)[0].toString();
+                    
+                        // Set the value
+                        // @ts-ignore
+                        valueLabel.characters = variableValue;
+                    }
+                    else {
+                        const newFill = [
+                            // @ts-ignore
+                            chip.fills[0],
+                            figma.util.solidPaint("#BF2012")
+                        ];
+                
+                        chip.fills = newFill;
+
+                        figma.notify("Check the red chips for typos on the chip label or the Figma variable itself (i.e. wrong case type)", { error: true, timeout: 10000 });
+                    }
+                }
+
+                // Check if the chip has a Type value to update
+                if (Object.values(chip.componentProperties)[5].value) {
+                    let valueLabel = chip.findOne(n => n.name === "Value");
+                    
+                    // Find the collection name (first word) and remove it
+                    let variableName = tokenName.replace(/^([\w\-]+)\//g, "");
+                
+                    // Find the variable in the collection
                     let matchingVariable = localCollections.find(n => n.name === variableName);
 
                     // Check if the token chip and variable names match
