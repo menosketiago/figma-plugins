@@ -1,16 +1,16 @@
 {
-  "name": "vmds-deprecate-components-on-page",
-  "version": "1.0.0",
-  "description": "A plugin that sets deprecation styles on all components on the current page",
-  "main": "code.js",
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "watch": "npm run build -- --watch"
-  },
-  "author": "",
-  "license": "",
-  "devDependencies": {
-    "@figma/plugin-typings": "^1.85.0",
-    "typescript": "*"
-  }
+    "name": "volvo-cards-deprecate-component",
+    "version": "2.0.0",
+    "description": "This plugin that sets deprecation styles on all components on the current page or the current selection",
+    "main": "code.js",
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "watch": "npm run build -- --watch"
+    },
+    "author": "",
+    "license": "",
+    "devDependencies": {
+        "@figma/plugin-typings": "^1.85.0",
+        "typescript": "*"
+    }
 }

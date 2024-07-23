@@ -1,72 +1,129 @@
 "use strict";
-// This plugin will deprecate all components within the current page
-figma.showUI(__html__);
-// Enable Figma color tokens
-figma.showUI(__html__, { themeColors: true /* other options */ });
-// Resize the UI modal
-figma.ui.resize(360, 420);
-// Calls to "parent.postMessage" from within the HTML page will trigger this
-// callback. The callback will be passed the "pluginMessage" property of the
-// posted message.
-figma.ui.onmessage = (msg) => {
-    const deprecationComponent = figma.currentPage.findOne(n => n.name === "📦 Deprecating");
-    const componentArray = figma.currentPage.findAllWithCriteria({
+// This plugin that sets deprecation styles on all components on the current page or the current selection
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+let deprecationArray;
+let deprecationNode;
+const createImage = () => __awaiter(void 0, void 0, void 0, function* () {
+    figma
+        .createImageAsync("https://menosketiago.com/test/deprecation-pattern.png")
+        .then((image) => __awaiter(void 0, void 0, void 0, function* () {
+        // Create node
+        const node = figma.createRectangle();
+        // Rename the node
+        node.name = "📦 Deprecating";
+        // Resize the node to match the image's width and height
+        const { width, height } = yield image.getSizeAsync();
+        node.resize(width, height);
+        // Set the fill on the node
+        node.fills = [
+            {
+                type: "IMAGE",
+                imageHash: image.hash,
+                scaleMode: "TILE",
+                scalingFactor: 0.5,
+            },
+        ];
+        // Store the new node outside the function
+        deprecationNode = node;
+        // Run the deprecation function
+        deprecateComponents();
+    }))
+        .catch((error) => {
+        console.log(error);
+    });
+});
+const deprecateComponents = () => {
+    Array.from(deprecationArray).forEach((component) => {
+        // Check if the component is not a base component
+        // and if there isn't already a deprecating layer on the component
+        if (!component.parent.name.includes("→") &&
+            !component.findChild((n) => n.name === "📦 Deprecating")) {
+            const deprecationClone = deprecationNode.clone();
+            if (deprecationClone) {
+                // Add the clone deprecation component to the component node layers
+                component.appendChild(deprecationClone);
+            }
+            let deprecationLayer = component.findChild((n) => n.name === "📦 Deprecating");
+            if (deprecationLayer) {
+                // Check if the component has autolayout and add absolute positioning
+                if (component.layoutMode !== "NONE") {
+                    deprecationLayer.layoutPositioning = "ABSOLUTE";
+                }
+                deprecationLayer.x = 0;
+                deprecationLayer.y = 0;
+                deprecationLayer.resize(component.width, component.height);
+                deprecationLayer.constraints = {
+                    horizontal: "SCALE",
+                    vertical: "SCALE",
+                };
+                deprecationLayer.locked = true;
+            }
+        }
+        // RENAME THE COMPONENT
+        if (component.parent) {
+            if (component.parent.type === "COMPONENT_SET" &&
+                component.findChild(n => n.name === "📦 Deprecating")) {
+                const originalName = component.parent.name;
+                if (!originalName.includes("[DEPRECATING]")) {
+                    component.parent.name = `[DEPRECATING] ${originalName}`;
+                }
+            }
+            else {
+                const originalName = component.name;
+                if (!originalName.includes("[DEPRECATING]")) {
+                    component.name = `[DEPRECATING] ${originalName}`;
+                }
+            }
+        }
+    });
+    // Delete the deprecation node
+    deprecationNode.remove();
+    // After the work is done close the plugin
+    figma.closePlugin("Components deprecated 🎉");
+};
+// Listen to command from the figma plugin menu
+if (figma.command === "page") {
+    // Push all components into the deprecation array
+    deprecationArray = figma.currentPage.findAllWithCriteria({
         types: ["COMPONENT"],
     });
-    function addDeprecationLayers() {
-        Array.from(componentArray).forEach((component) => {
-            // Check if the component is not a base component 
-            // and if there isn't already a deprecating layer on the component
-            if (!component.parent.name.includes("_") &&
-                !component.findChild(n => n.name === "📦 Deprecating")) {
-                const deprecationClone = deprecationComponent === null || deprecationComponent === void 0 ? void 0 : deprecationComponent.clone();
-                if (deprecationClone) {
-                    // Add the clone deprecation component to the component node layers
-                    component.appendChild(deprecationClone);
-                }
-                const deprecationLayer = component.findChild(n => n.name === "📦 Deprecating");
-                if (deprecationLayer) {
-                    // Check if the component has autolayout and add absolute positioning
-                    if (component.layoutMode !== "NONE") {
-                        deprecationLayer.layoutPositioning = "ABSOLUTE";
-                    }
-                    deprecationLayer.x = 0;
-                    deprecationLayer.y = 0;
-                    deprecationLayer.resize(component.width, component.height);
-                    deprecationLayer.constraints = { horizontal: "SCALE", vertical: "SCALE" };
-                }
-            }
-        });
+    if (deprecationArray.length >= 1) {
+        createImage();
     }
-    function renameDeprecatingComponents() {
-        Array.from(componentArray).forEach((component) => {
-            if (component.parent) {
-                if (component.parent.type === "COMPONENT_SET" &&
-                    component.findChild(n => n.name === "📦 Deprecating")) {
-                    const originalName = component.parent.name;
-                    if (!originalName.includes("[DEPRECATING]")) {
-                        component.parent.name = `[DEPRECATING] ${originalName}`;
-                    }
-                }
-                else {
-                    const originalName = component.name;
-                    if (!originalName.includes("[DEPRECATING]")) {
-                        component.name = `[DEPRECATING] ${originalName}`;
-                    }
-                }
-            }
-        });
-    }
-    if (deprecationComponent && componentArray.length > 0) {
-        addDeprecationLayers();
-        renameDeprecatingComponents();
-    }
-    if (!deprecationComponent) {
-        figma.notify("I think you forgot to add 📦 Deprecating component instance to the current page", {
+    else {
+        figma.closePlugin();
+        figma.notify("Is there a component on the page?", {
+            error: true,
             timeout: 10000,
-            error: true
         });
     }
-    // Not closing the plugin to avoid having to run it again on other pages
-    // figma.closePlugin();
-};
+}
+else if (figma.command === "selection") {
+    if (figma.currentPage.selection.length >= 1) {
+        // Push only components into the deprecation array
+        if (figma.currentPage.selection[0].type) {
+            deprecationArray = figma.currentPage.selection;
+        }
+        else {
+            deprecationArray = figma.currentPage.selection.findAllWithCriteria({
+                types: ["COMPONENT"],
+            });
+        }
+        createImage();
+    }
+    else {
+        figma.closePlugin();
+        figma.notify("You forgot to select a component 😅", {
+            error: true,
+            timeout: 10000,
+        });
+    }
+}

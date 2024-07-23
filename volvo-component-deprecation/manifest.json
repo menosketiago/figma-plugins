@@ -8,11 +8,19 @@
     "editorType": [
         "figma"
     ],
-    "ui": "ui.html",
     "networkAccess": {
         "allowedDomains": [
-            "https://fonts.googleapis.com",
-            "https://fonts.gstatic.com"
+            "https://menosketiago.com"
         ]
-    }
+    },
+    "menu": [
+        {
+            "name": "Deprecate all components on page",
+            "command": "page"
+        },
+        {
+            "name": "Deprecate components in selection",
+            "command": "selection"
+        }
+    ]
 }
