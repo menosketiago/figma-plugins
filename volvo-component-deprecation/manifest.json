@@ -15,11 +15,11 @@
     },
     "menu": [
         {
-            "name": "Deprecate all components on page",
+            "name": "Deprecate page",
             "command": "page"
         },
         {
-            "name": "Deprecate components in selection",
+            "name": "Deprecate selection",
             "command": "selection"
         }
     ]
