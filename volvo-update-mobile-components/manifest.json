@@ -1,5 +1,5 @@
 {
-    "name": "Back to the mobile future",
+    "name": "Update mobile components",
     "id": "1397203318928012518",
     "api": "1.0.0",
     "main": "code.js",
@@ -14,5 +14,14 @@
             "none"
         ]
     },
-    "documentAccess": "dynamic-page"
+    "menu": [
+        {
+            "name": "Update page",
+            "command": "page"
+        },
+        {
+            "name": "Update selection",
+            "command": "selection"
+        }
+    ]
 }

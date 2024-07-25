@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const selection = figma.currentPage.selection;
 let deprecationArray;
 let deprecationNode;
 const createImage = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -91,7 +92,7 @@ const deprecateComponents = () => {
 };
 // Listen to command from the figma plugin menu
 if (figma.command === "page") {
-    // Push all components into the deprecation array
+    // Push all components on the page to the deprecation array
     deprecationArray = figma.currentPage.findAllWithCriteria({
         types: ["COMPONENT"],
     });
@@ -107,13 +108,13 @@ if (figma.command === "page") {
     }
 }
 else if (figma.command === "selection") {
-    if (figma.currentPage.selection.length >= 1) {
-        // Push only components into the deprecation array
-        if (figma.currentPage.selection[0].type) {
-            deprecationArray = figma.currentPage.selection;
+    // Push only components inside the selection to the deprecation array
+    if (selection.length >= 1) {
+        if (selection[0].type) {
+            deprecationArray = selection;
         }
         else {
-            deprecationArray = figma.currentPage.selection.findAllWithCriteria({
+            deprecationArray = selection.findAllWithCriteria({
                 types: ["COMPONENT"],
             });
         }
@@ -121,7 +122,7 @@ else if (figma.command === "selection") {
     }
     else {
         figma.closePlugin();
-        figma.notify("You forgot to select a component 😅", {
+        figma.notify("You forgot to select something 😅", {
             error: true,
             timeout: 10000,
         });
