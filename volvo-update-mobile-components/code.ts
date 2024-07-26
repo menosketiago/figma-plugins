@@ -64,6 +64,14 @@ const iconKeys = {
         addressBook: "46a8601c40563ea0e6ea612ee7cfa4a7041c3961",
         iconName: "",
     },
+    mobileIcons: {
+        size24: {
+            chat: "fa545d8b0ff516c4e29a291a53636f097700203a",
+        },
+        size32: {
+            chat: "a6d1182c7e616a75abae1a01052ca8bf400c4564"
+        }
+    }
 };
 
 // Icon names mapping across libraries
@@ -71,17 +79,19 @@ const iconKeys = {
 
 const iconNameMapping = {
     addressBook: {
-        mdsLib: "",
-        oldGlobalLib: "",
+        iconInventoryLib: "",
+        mobileIcons: "",
     },
 };
 
-// Global variables
+// GLOBAL VARIABLES
 
 const selection = figma.currentPage.selection;
 let asyncRunning = 0;
 let componentArray: any;
 let componentNodes: any = {};
+
+// FUNCTIONS
 
 const asyncCalls = async () => {
     // Load library fonts
@@ -108,7 +118,7 @@ const getComponentNodeByKey = async (key: string) => {
 const checkForAsync = () => {
     // Check if there are async processes running and if not, close the plugin
     if (asyncRunning <= 0) {
-        figma.closePlugin("Mobile Design System components updated 🎉");
+        // figma.closePlugin("Mobile Design System components updated 🎉");
     }
 }
 
@@ -139,7 +149,7 @@ const updateComponents = () => {
             const leadingKey = leading.mainComponent.key;
             const trailing = component.children[2];
             const trailingComponentProps = trailing.componentProperties;
-            const trailingKey = trailing.mainComponent.key;
+            const trailingIconName = trailing.children[0].name.replace(/\s{1,3}\(32px\)/g, "").toLowerCase();
 
             // Swap the component
             component.swapComponent(componentNodes.listCard2);
@@ -148,13 +158,14 @@ const updateComponents = () => {
             component.findOne(((n: { name: string; }) => n.name === "Title")).characters = title;
             component.findOne(((n: { name: string; }) => n.name === "Message")).characters = message;
 
-            // Replace the leading instance
+            // Swap the icon in the leading instance
             getComponentNodeByKey(leadingKey).then((importedNode) => { 
                 asyncRunning--
 
                 const newLeadingNode = component.findOne(((n: { name: string; }) => n.name === "-> Leading"));
+                const icon = newLeadingNode.children[0];
 
-                newLeadingNode.swapComponent(importedNode);
+                icon.swapComponent(importedNode);
 
                 checkForAsync();
             });
@@ -169,6 +180,19 @@ const updateComponents = () => {
                             (n: { name: string }) => n.name.match("Icon")
                         )
                     );
+
+                    // Swap the icon
+                    // @ts-ignore
+                    getComponentNodeByKey(iconKeys.mobileIcons.size24[trailingIconName]).then((importedNode) => { 
+                        asyncRunning--
+        
+                        const newTrailingNode = component.findOne(((n: { name: string; }) => n.name === "-> Trailing"));
+                        const icon = newTrailingNode.children[0];
+        
+                        icon.swapComponent(importedNode);
+        
+                        checkForAsync();
+                    });
                 break;
                 case "Switch":
                     newTrailingNode.swapComponent(
@@ -195,6 +219,8 @@ const updateComponents = () => {
         }
     });
 };
+
+// INITIALIZATION
 
 // Listen to command from the figma plugin menu
 
