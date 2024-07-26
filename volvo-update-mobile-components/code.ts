@@ -1,4 +1,4 @@
-// This plugin updates the icons on the page with Volvo Icon library icons
+// This plugin updates out of date mobile components with state of art ones
 
 // Components that use swappable icons
 // Icon Button
@@ -28,6 +28,7 @@
 // Store a list of components that need to be updated
 const updatableComponents = [
     "⚡️ Information Card",
+    "⚡️ Insight Card",
     "⚡️ List primary",
     "⚡️ List secondary",
     "⚡️ List Card"
@@ -49,10 +50,9 @@ const componentKeys = {
     imageCard: "770c7c636d23d1a33575cdff788c09d066d7e0f9",
     // informationBox: "",
     // informationCard: "",
-    // insightCard: "",
-    // insightCard2: "",
-    // insightList: "",
-    // list: "",
+    insightCard: "db59b5d083ae7481d675d677f889a8a5682e7338",
+    insightCard2: "3e95e5de03c52a6b6698b572212f0003563945a4",
+    insightList: "4692a1415c5b9b38cadeef40c8e3a5ed15a38047",
     list2: "a2dda2278be541720296ad9ffc0b551703b1e54b",
     list2NestedLeading: "4da9a2cde920f33eea943aa155ef3145c5ad215f",
     list2NestedTrailing: "7fa7f828948dd0f05dd5b8dc9ebe1b0dbc51c352",
@@ -152,6 +152,10 @@ const updateComponents = () => {
             updateInformationCard(component);
         }
 
+        if (component.name.match("⚡️ Insight Card")) {
+            updateInsightCard(component);
+        }
+
         if (component.name.match("⚡️ List primary")) {
             updateListPrimary(component);
         }
@@ -179,6 +183,14 @@ const updateInformationCard = async (component: any) => {
     // Update swapped component
     component.findOne(((n: { name: string; }) => n.name === "Title")).characters = title;
     component.findOne(((n: { name: string; }) => n.name === "Message")).characters = message;
+
+    // Close plugin
+    checkForAsync();
+};
+
+const updateInsightCard = async (component: any) => {    
+    // Swap the component
+    component.swapComponent(componentNodes.insightCard2);
 
     // Close plugin
     checkForAsync();

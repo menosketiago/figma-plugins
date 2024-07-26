@@ -1,7 +1,7 @@
 {
-  "name": "Volvo Cars — Update mobile components",
+  "name": "volvo-cars—update-mobile-components",
   "version": "1.0.0",
-  "description": "A plugin to update components and icons in work files",
+  "description": "This plugin updates out of date mobile components with state of art ones",
   "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
