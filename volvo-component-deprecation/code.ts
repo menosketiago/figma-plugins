@@ -128,7 +128,8 @@ if (figma.command === "page") {
         });
     }
 } 
-else if (figma.command === "selection") {
+
+if (figma.command === "selection") {
     // Push only components inside the selection to the deprecation array
     if (selection.length >= 1) {
         if (selection[0].type) {

@@ -500,15 +500,25 @@ const updateComponents = () => {
 
 // INITIALIZATION
 
-// Listen to command from the figma plugin menu
+// Listen to the commands from the figma plugin menu
 
 if (figma.command === 'page') {
     // Push all instances on the page to the array
     componentArray = figma.currentPage.findAllWithCriteria({
         types: ['INSTANCE'],
     });
+
+    if (componentArray.length >= 1) {
+        // Call the async then run the main update function
+        asyncCalls().then(() => updateComponents());
+    }
+    else {
+        figma.closePlugin();
+        figma.notify('Weird, no component instances found on page 🤔', {error: true, timeout: 10000});
+    }
 } 
-else if (figma.command === 'selection') {
+
+if (figma.command === 'selection') {
     // Push only instances inside the selection to the deprecation array
     if (selection.length === 1) {
         // @ts-ignore
@@ -517,15 +527,10 @@ else if (figma.command === 'selection') {
 
             // Call the async then run the main update function
             asyncCalls().then(() => updateComponents());
-        } else {
+        }
+        else {
             figma.closePlugin();
-            figma.notify(
-                'The selection does not include a component instance 🙃',
-                {
-                    error: true,
-                    timeout: 10000,
-                }
-            );
+            figma.notify('The selection does not include a component instance 😅', {error: true, timeout: 10000});
         }
     } 
     else if (selection.length >= 2) {
@@ -539,9 +544,6 @@ else if (figma.command === 'selection') {
     } 
     else {
         figma.closePlugin();
-        figma.notify('You forgot to select something 😅', {
-            error: true,
-            timeout: 10000,
-        });
+        figma.notify('You forgot to select something 😅', {error: true, timeout: 10000});
     }
 }
