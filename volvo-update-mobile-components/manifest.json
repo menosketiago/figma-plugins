@@ -23,5 +23,6 @@
             "name": "Update selection",
             "command": "selection"
         }
-    ]
+    ],
+    "documentAccess": ""
 }
