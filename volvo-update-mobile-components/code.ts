@@ -45,22 +45,20 @@ const componentKeys = {
     // card: "",
     // doubleCard: "",
     // feedbackNotification: "",
+    fullscreenActionSheet2: "8e9bc7057dc28ecb9ef393ead15a6597dba7903c",
+    fullscreenWizardSheet2: "1facb5de8af4f3375f575f85d564e186e85e367b",
     iconButton: "ec66c67b5629e8561cd7924462bbf7574b1a81ad",
-    iconButton2: "6427e562acdff00617fa0ea5e685e14cde5e5e39",
     imageCard: "770c7c636d23d1a33575cdff788c09d066d7e0f9",
     // informationBox: "",
     // informationCard: "",
-    insightCard: "db59b5d083ae7481d675d677f889a8a5682e7338",
     insightCard2: "3e95e5de03c52a6b6698b572212f0003563945a4",
     insightList: "4692a1415c5b9b38cadeef40c8e3a5ed15a38047",
     list2: "a2dda2278be541720296ad9ffc0b551703b1e54b",
     list2NestedLeading: "4da9a2cde920f33eea943aa155ef3145c5ad215f",
     list2NestedTrailing: "7fa7f828948dd0f05dd5b8dc9ebe1b0dbc51c352",
-    listCard: "3c2f8072342ab2233083f885108e68d447da75de",
     listCard2: "ef004093724bb47d6872c631dfb82392a5dd723c",
     // listHeader: "",
     // navigationBar: "",
-    // navigationBar2: "",
     // search: "",
     // selectableCard: "",
     // selectableExpandableCard: "",
@@ -633,21 +631,30 @@ const updateComponents = () => {
         if (component.name.match("⚡️ Information Card")) {
             updateInformationCard(component);
         }
-
-        if (component.name.match("⚡️ Insight Card")) {
+        else if (component.name.match("⚡️ Insight Card")) {
             updateInsightCard(component);
         }
-
-        if (component.name.match("⚡️ List primary")) {
+        else if (component.name.match("⚡️ List primary")) {
             updateListPrimary(component);
         }
-
-        if (component.name.match("⚡️ List secondary")) {
+        else if (component.name.match("⚡️ List secondary")) {
             updateListSecondary(component);
         }
-        
-        if (component.name.match("⚡️ List Card")) {
+        else if (component.name.match("⚡️ List Card")) {
             updateListCard(component);
+        }
+        else if (component.name.match("⚡️ Fullscreen Action Sheet")) {
+            updateActionSheet(component);
+        }
+        else if (component.name.match("⚡️ Fullscreen Wizard Sheet")) {
+            updateWizardSheet(component);
+        }
+        else {
+            figma.closePlugin();
+            figma.notify("This component is not currently supported by the plugin", {
+                error: true,
+                timeout: 10000,
+            });
         }
     });
 };
@@ -826,8 +833,8 @@ const updateListPrimary = async (component: any) => {
 
 const updateListSecondary = async (component: any) => {
     // Leading and trailing content
-    const leading = component.findOne(((n: { name: string; }) => n.name === "Leading"));
-    const leadingIconName = leading.mainComponent.name.replace(iconMetaPattern, "").toLowerCase();
+    const leading = component.children[0].children[0];
+    const leadingIconName = leading.name.replace(iconMetaPattern, "").toLowerCase();
 
     const trailing = component.findOne(((n: { name: string; }) => n.name === "Trailing"));
     const trailingComponentProps = trailing.componentProperties;
@@ -1048,6 +1055,36 @@ const updateListCard = async (component: any) => {
         break;
     }
     
+    // Close plugin
+    checkForAsync();
+};
+
+const updateActionSheet = async (component: any) => {    
+    // Store the text content
+    const titleWrapper = component.findOne(((n: { name: string; }) => n.name === "Title + Message"));
+    const title = titleWrapper.findOne(((n: { name: string; }) => n.name === "Title")).characters;
+
+    // Swap the component
+    component.swapComponent(componentNodes.fullscreenActionSheet2);
+
+    // Update swapped component
+    component.findOne(((n: { name: string; }) => n.name === "Header")).characters = title;
+
+    // Close plugin
+    checkForAsync();
+};
+
+const updateWizardSheet = async (component: any) => { 
+    // Store the text content
+    const titleWrapper = component.findOne(((n: { name: string; }) => n.name === "Title + Message"));
+    const title = titleWrapper.findOne(((n: { name: string; }) => n.name === "Title")).characters;
+
+    // Swap the component
+    component.swapComponent(componentNodes.fullscreenWizardSheet2);
+
+    // Update swapped component
+    component.findOne(((n: { name: string; }) => n.name === "Header")).characters = title;
+
     // Close plugin
     checkForAsync();
 };

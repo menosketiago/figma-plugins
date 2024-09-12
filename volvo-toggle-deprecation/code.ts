@@ -7,23 +7,37 @@ const deprecatedComponentArray = figma.currentPage.findAll((n) =>
 // FUNCTIONS
 
 const hideDeprecation = () => {
-    Array.from(deprecatedComponentArray).forEach((item) => {
-        if (item.type === "INSTANCE") {
+    if (deprecatedComponentArray.length >= 1) {
+        Array.from(deprecatedComponentArray).forEach((item) => {
             item.visible = false;
-
+    
             figma.closePlugin("Deprecation styles hidden 👻");
-        }
-    });
+        });
+    }
+    else {
+        figma.closePlugin();
+        figma.notify("Can't find deprecations styles on the page", {
+            error: true,
+            timeout: 10000,
+        });
+    }
 };
 
 const showDeprecation = () => {
-    Array.from(deprecatedComponentArray).forEach((item) => {
-        if (item.type === "INSTANCE") {
+    if (deprecatedComponentArray.length >= 1) {
+        Array.from(deprecatedComponentArray).forEach((item) => {
             item.visible = true;
-
+    
             figma.closePlugin("Deprecation styles shown 🎃");
-        }
-    });
+        });
+    }
+    else {
+        figma.closePlugin();
+        figma.notify("Can't find deprecations styles on the page", {
+            error: true,
+            timeout: 10000,
+        });
+    }
 };
 
 // LISTEN TO COMMAND FROM FIGMA
