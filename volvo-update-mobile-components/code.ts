@@ -40,7 +40,7 @@ const outOfDateComponents = [
 const componentKeys = {
     // actionChip: "",
     // bottomNavigation: "",
-    // button: "",
+    button2: "19d4bd722672576e76dec566b355f3aa3287ab27",
     // doubleButton: "",
     // card: "",
     // doubleCard: "",
@@ -649,6 +649,13 @@ const updateComponents = () => {
         else if (component.name.match("⚡️ Fullscreen Wizard Sheet")) {
             updateWizardSheet(component);
         }
+        else if (
+            component.name.match("⚡️ Button Medium")) {
+            updateButtonMedium(component);
+        }
+        else if ( component.name.match("⚡️ Button Small")) {
+            updateButtonSmall(component);
+        }
         else {
             figma.closePlugin();
             figma.notify("This component is not currently supported by the plugin", {
@@ -1084,6 +1091,126 @@ const updateWizardSheet = async (component: any) => {
 
     // Update swapped component
     component.findOne(((n: { name: string; }) => n.name === "Header")).characters = title;
+
+    // Close plugin
+    checkForAsync();
+};
+
+const updateButtonMedium = async (component: any) => { 
+    const type = component.componentProperties.Type.value;
+    const style = component.componentProperties.Style.value;
+
+    // Swap the component according to the props
+    switch (type) {
+        case "Primary":
+            switch (style) {
+                case "Accent":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Medium")));
+                break;
+                case "Destructive":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Destructive")));
+                break;
+                case "Overlay white":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Overlay White")));
+                break;
+                case "Overlay black":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Overlay Black")));
+                break;
+            }
+        break;
+        case "Secondary":
+            switch (style) {
+                case "Accent":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Secondary")));
+                break;
+                case "Destructive":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Destructive")));
+                break;
+                case "Overlay white":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Overlay White")));
+                break;
+                case "Overlay black":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Overlay Black")));
+                break;
+            }
+        break;
+        case "Tertiary":
+            switch (style) {
+                case "Accent":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Text")));
+                break;
+                case "Destructive":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Text Destructive")));
+                break;
+                case "Overlay white":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Overlay White")));
+                break;
+                case "Overlay black":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Medium, Type=Overlay Black")));
+                break;
+            }
+        break;
+    }
+
+    // Close plugin
+    checkForAsync();
+};
+
+const updateButtonSmall = async (component: any) => { 
+    const type = component.componentProperties.Type.value;
+    const style = component.componentProperties.Style.value;
+
+    // Swap the component according to the props
+    switch (type) {
+        case "Primary":
+            switch (style) {
+                case "Accent":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Small")));
+                break;
+                case "Destructive":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Destructive")));
+                break;
+                case "Overlay white":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Overlay White")));
+                break;
+                case "Overlay black":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Overlay Black")));
+                break;
+            }
+        break;
+        case "Secondary":
+            switch (style) {
+                case "Accent":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Secondary")));
+                break;
+                case "Destructive":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Destructive")));
+                break;
+                case "Overlay white":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Overlay White")));
+                break;
+                case "Overlay black":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Overlay Black")));
+                break;
+            }
+        break;
+        case "Tertiary":
+            switch (style) {
+                case "Accent":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Text")));
+                break;
+                case "Destructive":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Text Destructive")));
+                break;
+                case "Overlay white":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Overlay White")));
+                break;
+                case "Overlay black":
+                    component.swapComponent(componentNodes.button2.parent.findChild((n: { name: string }) => n.name.match("Size=Small, Type=Overlay Black")));
+                break;
+            }
+        break;
+    }
 
     // Close plugin
     checkForAsync();
