@@ -14,7 +14,7 @@ let deprecationArray;
 let deprecationNode;
 const createImage = () => __awaiter(void 0, void 0, void 0, function* () {
     figma
-        .createImageAsync("https://menosketiago.com/test/deprecation-pattern.png")
+        .createImageAsync("https://i.imgur.com/wmnq6zu.png")
         .then((image) => __awaiter(void 0, void 0, void 0, function* () {
         // Create node
         const node = figma.createRectangle();

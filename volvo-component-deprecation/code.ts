@@ -7,7 +7,7 @@ let deprecationNode: any;
 const createImage = async () => {
     figma
         .createImageAsync(
-            "https://menosketiago.com/test/deprecation-pattern.png"
+            "https://i.imgur.com/wmnq6zu.png"
         )
         .then(async (image: Image) => {
             // Create node
