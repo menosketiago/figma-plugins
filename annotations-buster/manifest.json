@@ -1,0 +1,20 @@
+{
+    "name": "Annotations buster",
+    "id": "1486732683672016561",
+    "api": "1.0.0",
+    "main": "code.js",
+    "capabilities": [
+        "inspect"
+    ],
+    "enableProposedApi": false,
+    "editorType": [
+        "figma",
+  "dev"
+    ],
+    "networkAccess": {
+        "allowedDomains": [
+            "none"
+        ]
+    },
+    "documentAccess": "dynamic-page"
+}
