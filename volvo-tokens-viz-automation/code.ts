@@ -59,7 +59,7 @@ const asyncCalls = async () => {
     localCollections = await figma.variables.getLocalVariablesAsync();
 };
 
-const setChipError = (chip) => {
+const setChipError = (chip: InstanceNode) => {
     const newFill = [
         // @ts-ignore
         chip.fills[0],
