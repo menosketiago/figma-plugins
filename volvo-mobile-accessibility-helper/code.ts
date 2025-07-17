@@ -20,18 +20,24 @@ function cleanAnnotations(annotations: any[]): Annotation[] {
         .filter(a => 'labelMarkdown' in a);
 }
 
+function hasAccessibilityWarning(annotations: any[]): boolean {
+    return annotations.some(a =>
+        typeof a.labelMarkdown === "string" &&
+        a.labelMarkdown.includes("Accessibility warning")
+    );
+}
+
 function addAnnotation(instance: any, annotation: Annotation) {
     // Ensure only labelMarkdown is present
     if ('label' in annotation) {
         delete (annotation as any).label;
     }
-    if (Array.isArray(instance.annotations)) {
-        // Clean existing annotations to remove 'label'
-        const cleaned = cleanAnnotations(instance.annotations);
-        instance.annotations = [...cleaned, annotation];
-    } else {
-        instance.annotations = [annotation];
+    const existing = Array.isArray(instance.annotations) ? instance.annotations : [];
+    if (hasAccessibilityWarning(existing)) {
+        return; // Skip if already present
     }
+    const cleaned = cleanAnnotations(existing);
+    instance.annotations = [...cleaned, annotation];
 }
 
 Array.from(instancesArray).forEach((instance) => {
