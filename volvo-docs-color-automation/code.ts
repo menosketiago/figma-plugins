@@ -44,6 +44,10 @@ const asyncCalls = async () => {
     await figma.loadFontAsync({ family: "Volvo Novum", style: "Regular" });
     await figma.loadFontAsync({ family: "Volvo Novum", style: "SemiLight" });
     await figma.loadFontAsync({ family: "Volvo Novum", style: "Medium" });
+        
+    await figma.loadFontAsync({ family: "Volvo Centum", style: "Light" });
+    await figma.loadFontAsync({ family: "Volvo Centum", style: "Regular" });
+    await figma.loadFontAsync({ family: "Volvo Centum", style: "SemiBold" });
 };
 
 let listItemArray = figma.currentPage.findAll(n => n.name === "📦 Figma / Structured List");
