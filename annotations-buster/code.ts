@@ -7,8 +7,6 @@ const saveHistory = async () => {
 const bustAnnotations = () => {
     const nodeArray = figma.currentPage.findAll(n => n.annotations !== undefined);
 
-    console.log(nodeArray)
-
     Array.from(nodeArray).forEach(node => {
         if (node.annotations.length > 0) {
             node.annotations = [];
