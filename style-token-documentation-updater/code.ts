@@ -168,7 +168,7 @@ function figmaRGBToHex(color: RGBA): string {
         runCount += 1;
 
         const defaultMessage = "Style token documentation updated successfully 🙌";
-        const isCoffeeRun = runCount % 15 === 0;
+        const isCoffeeRun = runCount % 10 === 0;
         const coffeeMessage = `I saved you from manual updates ${runCount} times! Why not buy me a thank you coffee via https://buymeacoffee.com/menosketiago? 🤓`;
 
         await figma.clientStorage.setAsync("styleTokenUpdaterRunCount", runCount);
