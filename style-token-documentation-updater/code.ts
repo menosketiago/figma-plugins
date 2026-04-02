@@ -123,6 +123,7 @@ function figmaRGBToHex(color: RGBA): string {
 
             let typeStyleId: string = (typeStyleLayer as any).textStyleId;
             let typeStyle = await figma.getStyleByIdAsync(typeStyleId) as TextStyle;
+
             if (!typeStyle) continue;
 
             let typeStyleName: string = typeStyle.name;
@@ -161,27 +162,48 @@ function figmaRGBToHex(color: RGBA): string {
 
         // Update run count and determine notification message
         let runCountValue = await figma.clientStorage.getAsync("styleTokenUpdaterRunCount");
+
         let runCount = Number(runCountValue);
         if (isNaN(runCount) || runCount < 0) {
             runCount = 0;
         }
+
+        // Increment the run count
         runCount += 1;
 
         const defaultMessage = "Style token documentation updated successfully 🙌";
-        const isCoffeeRun = runCount % 10 === 0;
+        const isCoffeeRun = runCount % 2 === 0;
+        const hideCoffee = await figma.clientStorage.getAsync("styleTokenUpdaterHideCoffee");
         const coffeeMessage = `I saved you from manual updates ${runCount} times! Why not buy me a thank you coffee via https://buymeacoffee.com/menosketiago? 🤓`;
 
         await figma.clientStorage.setAsync("styleTokenUpdaterRunCount", runCount);
 
-        if (isCoffeeRun) {
+        if (isCoffeeRun && !hideCoffee) {
+            let dismissed = false;
             figma.notify(coffeeMessage, {
-                timeout: Infinity,
+                timeout: 10000,
+                button: {
+                    text: "Don't show again",
+                    action: () => {
+                        dismissed = true;
+                        figma.clientStorage.setAsync("styleTokenUpdaterHideCoffee", true);
+                        figma.closePlugin();
+                    }
+                }
             });
-        } else {
+
+            setTimeout(() => {
+                if (!dismissed) {
+                    figma.closePlugin();
+                }
+            }, 10100);
+        } 
+        else {
             figma.notify(defaultMessage);
             figma.closePlugin();
         }
-    } catch (error) {
+    } 
+    catch (error) {
         figma.notify("Error updating style token documentation: " + (error instanceof Error ? error.message : String(error)));
         figma.closePlugin();
     }
