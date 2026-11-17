@@ -1,0 +1,19 @@
+{
+  "name": "Before Claude save point",
+  "id": "1704511585076244037",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma", "figjam"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": { "allowedDomains": ["none"] },
+  "parameterOnly": false,
+  "parameters": [
+    {
+      "name": "What is about to change",
+      "key": "change",
+      "description": "Short description, for example Remove connector lines",
+      "allowFreeform": true,
+      "optional": true
+    }
+  ]
+}
